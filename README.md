@@ -510,3 +510,49 @@ const context = await browser.newContext({
 | `page.bringToFront()` | Focus on specific page |
 | `newPage.waitForLoadState()` | Wait for page load |
 | `expect(page).toHaveURL()` | Verify URL |
+
+### Q11: How do you switch back to parent window?
+```typescript
+// Store parent page reference before opening new tab
+const parentPage = page;
+
+// Open new tab
+const [newPage] = await Promise.all([
+    context.waitForEvent('page'),
+    page.locator('.link').click()
+]);
+
+// Work with new page...
+await newPage.waitForLoadState('domcontentloaded');
+
+// Switch back to parent window
+await parentPage.bringToFront();
+
+// Verify parent is active
+await expect(parentPage).toHaveURL(/.*original/);
+```
+
+### Q12: How do you close child window and continue with parent?
+```typescript
+// Close child window
+await childPage.close();
+
+// Switch back to parent
+await parentPage.bringToFront();
+
+// Parent is still functional
+await parentPage.locator('#input').fill('value');
+```
+
+### Q13: Can you store page reference for later use?
+```typescript
+// Store page references
+const page1 = page;
+const page2 = await context.newPage();
+const page3 = await context.newPage();
+
+// Switch between any stored reference
+await page1.bringToFront();
+await page2.bringToFront();
+await page3.bringToFront();
+```
