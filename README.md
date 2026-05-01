@@ -42,7 +42,8 @@ npx playwright test -g "Static dropdown"
 ├── package.json            # Dependencies
 ├── tests/
 │   ├── ecommerceTest.spec.js      # E-commerce tests
-│   └── StaticDropdown.spec.js     # Static dropdown tests
+│   ├── StaticDropdown.spec.js     # Static dropdown tests
+│   └── WindowHandling.spec.js     # Window/Tab handling tests
 └── .github/workflows/
     └── playwright.yml      # CI/CD workflow
 ```
@@ -393,3 +394,119 @@ Then view trace at: https://trace.playwright.dev
 |--------|-------------|
 | `page.getByText(text)` | Locates element by visible text |
 | `page.waitForLoadState(state)` | Waits for specific load state (networkidle, domcontentloaded, etc.) |
+
+---
+
+## 🪟 Window Handling Guide (Interview Ready)
+
+### Common Interview Questions & Answers
+
+### Q1: How do you handle multiple tabs in Playwright?
+```typescript
+// Click link that opens new tab
+const [newPage] = await Promise.all([
+    context.waitForEvent('page'),  // Wait for new page event
+    page.locator('.link').click()   // Click the link
+]);
+
+// Work with new page
+await newPage.waitForLoadState('domcontentloaded');
+await expect(newPage).toHaveURL(/.*expected/);
+```
+
+### Q2: How do you switch between tabs/windows?
+```typescript
+// Get all pages in context
+const allPages = context.pages();
+console.log(`Total tabs: ${allPages.length}`);
+
+// Switch to specific page
+await page2.bringToFront();
+
+// Or use page reference
+await newPage.bringToFront();
+```
+
+### Q3: How do you handle popup windows?
+```typescript
+const [popup] = await Promise.all([
+    context.waitForEvent('page'),
+    page.locator('#openwindow').click()
+]);
+
+await popup.waitForLoadState('load');
+// Work with popup
+await popup.close();
+```
+
+### Q4: What is the difference between page and context?
+| Aspect | Browser Context | Page |
+|--------|----------------|------|
+| **Isolation** | Isolated cookies/storage | Shares context |
+| **Creation** | `browser.newContext()` | `context.newPage()` |
+| **Use Case** | Login state, parallel tests | Single tab/window |
+| **Tabs** | Multiple pages | Single page |
+
+### Q5: How do you handle new windows (not tabs)?
+```typescript
+// Playwright treats new windows as new pages within same context
+const [newWindow] = await Promise.all([
+    context.waitForEvent('page'),
+    page.locator('button').click()
+]);
+```
+
+### Q6: How do you close a tab/window?
+```typescript
+// Close specific page
+await page.close();
+
+// Close context (closes all pages)
+await context.close();
+```
+
+### Q7: How do you verify URL in new tab?
+```typescript
+await expect(newPage).toHaveURL(/.*pattern/);
+await expect(newPage).toHaveURL('https://exact-url.com');
+```
+
+### Q8: What events can you listen for?
+```typescript
+// Wait for new page event
+context.waitForEvent('page');
+
+// Wait for popup window
+context.waitForEvent('popup');
+
+// Or listen to page events
+page.on('popup', popup => console.log(popup.url()));
+page.on('request', request => console.log(request.url()));
+```
+
+### Q9: How do you persist login state across tabs?
+```typescript
+// Create context with storage state
+const context = await browser.newContext({
+    storageState: './auth.json'  // Save/load login state
+});
+
+// All pages in this context share the login
+```
+
+### Q10: What is the difference between bringToFront() and close()?
+| Method | Description |
+|--------|-------------|
+| `bringToFront()` | Brings page to focus/foreground |
+| `close()` | Closes the page/tab |
+
+---
+
+### Key Methods Summary
+| Method | Use Case |
+|--------|----------|
+| `context.waitForEvent('page')` | Wait for new tab/window |
+| `context.pages()` | Get all open pages |
+| `page.bringToFront()` | Focus on specific page |
+| `newPage.waitForLoadState()` | Wait for page load |
+| `expect(page).toHaveURL()` | Verify URL |
