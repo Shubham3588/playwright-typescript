@@ -55,6 +55,41 @@ npx playwright test -g "Static dropdown"
 
 ---
 
+## 🧪 Methods Used in `tests/ecommercee2e.spec.js`
+
+This file demonstrates a Playwright end-to-end test that logs into an e-commerce site, adds a product to the cart, verifies the cart, and completes checkout.
+
+### Playwright test utilities
+- `test(name, async ({browser}) => {...})` — define a test case and get a `browser` fixture.
+- `expect(value).toEqual(expected)` — assert the actual value equals the expected value.
+
+### Browser and page lifecycle
+- `browser.newContext()` — create a new browser context for an isolated test session.
+- `context.newPage()` — open a new page/tab in the context.
+- `page.goto(url)` — navigate to the target URL.
+
+### Element actions and assertions
+- `page.locator(selector)` — locate an element or set of elements on the page.
+- `locator.fill(value)` — type or replace the value of an input field.
+- `locator.click()` — click an element.
+- `locator.waitFor()` — wait for the element to appear and be ready.
+- `locator.allTextContents()` — get text content from all matching elements as an array.
+- `locator.textContent()` — read text content from a single element.
+- `locator.inputValue()` — read the current value of an input field.
+- `locator.count()` — count how many elements match the locator.
+- `locator.nth(index)` — target the nth element from a locator that matches multiple elements.
+
+### Query helper methods
+- `page.getByText(text)` — locate an element by its visible text.
+- `page.getByPlaceholder(text)` — locate an input by its placeholder value.
+- `locator.pressSequentially(keys, options)` — type text sequentially into a focused element with a delay.
+
+### Test-specific patterns
+- `for (const name of productName) { ... }` — loop through product names and click the matching item.
+- `if (text === ' India') { ... }` — compare option labels before selecting the dropdown item.
+
+---
+
 ## 📝 textContent vs inputValue() vs innerText
 
 ### Quick Comparison
