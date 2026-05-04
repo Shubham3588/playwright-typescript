@@ -2,7 +2,11 @@
 
 A Playwright automation testing project for e-commerce website testing.
 
-## 📦 Installation
+## � Documentation
+
+- **[PLAYWRIGHT_KNOWLEDGE_BASE.md](PLAYWRIGHT_KNOWLEDGE_BASE.md)** — Comprehensive guide with setup, methods, best practices, and interview Q&A
+- **[README.md](README.md)** — Project overview and test specifications
+
 
 ```bash
 npm install
