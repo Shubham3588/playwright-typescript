@@ -41,9 +41,10 @@ npx playwright test -g "Static dropdown"
 ├── playwright.config.js    # Playwright configuration
 ├── package.json            # Dependencies
 ├── tests/
-│   ├── ecommerceTest.spec.js      # E-commerce tests
-│   ├── StaticDropdown.spec.js     # Static dropdown tests
-│   └── WindowHandling.spec.js     # Window/Tab handling tests
+│   ├── ecommerceTest.spec.js             # E-commerce tests
+│   ├── getByLocatorPractice.spec.js      # Locator practice tests (Gender select)
+│   ├── StaticDropdown.spec.js            # Static dropdown tests
+│   └── WindowHandling.spec.js            # Window/Tab handling tests
 └── .github/workflows/
     └── playwright.yml      # CI/CD workflow
 ```
@@ -87,6 +88,20 @@ This file demonstrates a Playwright end-to-end test that logs into an e-commerce
 ### Test-specific patterns
 - `for (const name of productName) { ... }` — loop through product names and click the matching item.
 - `if (text === ' India') { ... }` — compare option labels before selecting the dropdown item.
+
+---
+
+## 🧪 Methods Used in `tests/getByLocatorPractice.spec.js`
+
+This file practices Playwright locators for form controls on the Angular practice page.
+
+### Locator patterns
+- `page.getByLabel("Check me out if you Love IceCreams!")` — locate a checkbox by its label.
+- `locator.check()` — select/activate a checkbox or radio control.
+- `locator.isChecked()` — verify whether a checkbox or radio button is checked.
+- `page.getByPlaceholder("Password")` — locate an input field by placeholder text.
+- `page.getByLabel("Gender")` — locate a select dropdown by its label.
+- `locator.selectOption("Female")` — choose an option from a dropdown by value.
 
 ---
 
