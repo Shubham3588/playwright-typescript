@@ -93,7 +93,7 @@ This file demonstrates a Playwright end-to-end test that logs into an e-commerce
 
 ## 🧪 Methods Used in `tests/getByLocatorPractice.spec.js`
 
-This file practices Playwright locators for form controls on the Angular practice page.
+This file practices Playwright locators for form controls on the Angular practice page, including checkboxes, dropdowns, form submission, and navigation.
 
 ### Locator patterns
 - `page.getByLabel("Check me out if you Love IceCreams!")` — locate a checkbox by its label.
@@ -102,6 +102,16 @@ This file practices Playwright locators for form controls on the Angular practic
 - `page.getByPlaceholder("Password")` — locate an input field by placeholder text.
 - `page.getByLabel("Gender")` — locate a select dropdown by its label.
 - `locator.selectOption("Female")` — choose an option from a dropdown by value.
+- `page.getByRole("button", { name: "Submit" })` — locate a button by its role and name.
+- `page.getByText("The Form has been submitted successfully!.")` — locate an element by its visible text.
+- `page.getByRole("link", { name: "Shop" })` — locate a link by its role and name.
+- `page.locator("app-card").filter({ hasText: "Nokia Edge" })` — filter elements by text content.
+- `locator.getByRole("button")` — locate a button within a filtered element.
+
+### Assertions
+- `expect(value).toBeTruthy()` — assert that a value is truthy (e.g., checkbox is checked).
+- `expect(value).toBeFalsy()` — assert that a value is falsy (e.g., checkbox is unchecked).
+- `expect(message).toContain("Success!")` — assert that a string contains a substring.
 
 ---
 
