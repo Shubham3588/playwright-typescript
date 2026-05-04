@@ -22,6 +22,9 @@ npx playwright test
 npx playwright test tests/ecommerceTest.spec.js
 npx playwright test tests/StaticDropdown.spec.js
 
+# Run in debug mode
+npx playwright test --debug
+
 # Run with UI mode (interactive)
 npx playwright test --ui
 
