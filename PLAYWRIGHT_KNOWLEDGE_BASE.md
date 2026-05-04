@@ -1,9 +1,11 @@
 # 🎭 Playwright Complete Knowledge Base
+
 **For Interview Preparation & Comprehensive Learning**
 
 ---
 
 ## Table of Contents
+
 1. [Setup & Installation](#setup--installation)
 2. [Core Concepts](#core-concepts)
 3. [Locators & Selectors](#locators--selectors)
@@ -18,6 +20,7 @@
 ## Setup & Installation
 
 ### Prerequisites
+
 - Node.js (v14 or higher)
 - npm or yarn
 
@@ -53,40 +56,40 @@ project-root/
 ### Basic Configuration (playwright.config.js)
 
 ```javascript
-const { defineConfig, devices } = require('@playwright/test');
+const { defineConfig, devices } = require("@playwright/test");
 
 export const config = defineConfig({
-  testDir: './tests',
-  timeout: 30 * 1000,          // 30 seconds per test
+  testDir: "./tests",
+  timeout: 30 * 1000, // 30 seconds per test
   expect: {
-    timeout: 5000              // 5 seconds per assertion
+    timeout: 5000, // 5 seconds per assertion
   },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  reporter: "html",
   use: {
-    baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    baseURL: "http://localhost:3000",
+    trace: "on-first-retry",
   },
   webServer: {
-    command: 'npm run start',
-    url: 'http://localhost:3000',
+    command: "npm run start",
+    url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
   ],
 });
@@ -103,13 +106,13 @@ export const config = defineConfig({
 **Page:** A tab/window within a context
 
 ```javascript
-const { chromium } = require('@playwright/test');
+const { chromium } = require("@playwright/test");
 
 const browser = await chromium.launch();
 const context = await browser.newContext();
 const page = await context.newPage();
 
-await page.goto('https://example.com');
+await page.goto("https://example.com");
 
 await page.close();
 await context.close();
@@ -119,35 +122,35 @@ await browser.close();
 ### 2. Test Structure
 
 ```javascript
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require("@playwright/test");
 
-test('Test Name', async ({ page }) => {
+test("Test Name", async ({ page }) => {
   // Arrange
-  await page.goto('https://example.com');
-  
+  await page.goto("https://example.com");
+
   // Act
-  await page.click('#button');
-  
+  await page.click("#button");
+
   // Assert
-  await expect(page.locator('.message')).toContainText('Success');
+  await expect(page.locator(".message")).toContainText("Success");
 });
 ```
 
 ### 3. Test Fixtures
 
 ```javascript
-test.describe('Feature Group', () => {
+test.describe("Feature Group", () => {
   test.beforeEach(async ({ page }) => {
     // Runs before each test
-    await page.goto('https://example.com');
+    await page.goto("https://example.com");
   });
 
   test.afterEach(async ({ page }) => {
     // Runs after each test
-    console.log('Test completed');
+    console.log("Test completed");
   });
 
-  test('Test 1', async ({ page }) => {
+  test("Test 1", async ({ page }) => {
     // Test code
   });
 });
@@ -160,70 +163,76 @@ test.describe('Feature Group', () => {
 ### Types of Locators
 
 #### 1. CSS Selectors
+
 ```javascript
 // Element by class
-await page.locator('.button').click();
+await page.locator(".button").click();
 
 // Element by ID
-await page.locator('#email').fill('test@test.com');
+await page.locator("#email").fill("test@test.com");
 
 // Attribute selector
-await page.locator('[name="username"]').fill('user');
+await page.locator('[name="username"]').fill("user");
 
 // Combined
-await page.locator('div.container > button.submit').click();
+await page.locator("div.container > button.submit").click();
 ```
 
 #### 2. XPath
+
 ```javascript
 // Element by text
 await page.locator("//button[text()='Submit']").click();
 
 // Element by attribute
-await page.locator("//input[@id='email']").fill('test@test.com');
+await page.locator("//input[@id='email']").fill("test@test.com");
 
 // Parent-child relationship
-await page.locator("//div[@class='form']//input[@type='text']").fill('value');
+await page.locator("//div[@class='form']//input[@type='text']").fill("value");
 ```
 
 #### 3. Playwright Built-in Locators (Recommended)
 
 ```javascript
 // By label (for form controls)
-await page.getByLabel('Username').fill('user123');
+await page.getByLabel("Username").fill("user123");
 
 // By placeholder
-await page.getByPlaceholder('Enter password').fill('Pass@123');
+await page.getByPlaceholder("Enter password").fill("Pass@123");
 
 // By text
-await page.getByText('Click Me').click();
+await page.getByText("Click Me").click();
 
 // By role (accessibility-based)
-await page.getByRole('button', { name: 'Submit' }).click();
-await page.getByRole('textbox', { name: 'Email' }).fill('test@test.com');
+await page.getByRole("button", { name: "Submit" }).click();
+await page.getByRole("textbox", { name: "Email" }).fill("test@test.com");
 
 // By test ID (data-testid)
-await page.getByTestId('login-button').click();
+await page.getByTestId("login-button").click();
 ```
 
 ### Advanced Locator Methods
 
 ```javascript
 // Combine locators with filter
-await page.locator('button').filter({ hasText: 'Submit' }).click();
+await page.locator("button").filter({ hasText: "Submit" }).click();
 
 // Filter by child element
-await page.locator('.card').filter({ has: page.locator('.badge') }).first().click();
+await page
+  .locator(".card")
+  .filter({ has: page.locator(".badge") })
+  .first()
+  .click();
 
 // Using nth() to select specific element
-await page.locator('.item').nth(2).click();
+await page.locator(".item").nth(2).click();
 
 // Using first() and last()
-await page.locator('.item').first().click();
-await page.locator('.item').last().click();
+await page.locator(".item").first().click();
+await page.locator(".item").last().click();
 
 // Using count()
-const count = await page.locator('.item').count();
+const count = await page.locator(".item").count();
 ```
 
 ---
@@ -234,8 +243,8 @@ const count = await page.locator('.item').count();
 
 ```javascript
 // Navigate to URL
-await page.goto('https://example.com');
-await page.goto('https://example.com', { waitUntil: 'networkidle' });
+await page.goto("https://example.com");
+await page.goto("https://example.com", { waitUntil: "networkidle" });
 
 // Back/Forward
 await page.goBack();
@@ -249,7 +258,7 @@ await page.reload();
 
 ```javascript
 // Wait for element
-await page.locator('.message').waitFor();
+await page.locator(".message").waitFor();
 
 // Wait for navigation
 await page.waitForNavigation();
@@ -258,73 +267,73 @@ await page.waitForNavigation();
 await page.waitForTimeout(2000);
 
 // Wait for load state
-await page.waitForLoadState('networkidle');
-await page.waitForLoadState('domcontentloaded');
-await page.waitForLoadState('load');
+await page.waitForLoadState("networkidle");
+await page.waitForLoadState("domcontentloaded");
+await page.waitForLoadState("load");
 ```
 
 ### Element Interactions
 
 ```javascript
 // Click
-await page.locator('button').click();
-await page.locator('button').dblClick();
-await page.locator('button').click({ button: 'right' });
+await page.locator("button").click();
+await page.locator("button").dblClick();
+await page.locator("button").click({ button: "right" });
 
 // Fill input
-await page.locator('#email').fill('test@test.com');
+await page.locator("#email").fill("test@test.com");
 
 // Type text (slower, character by character)
-await page.locator('#email').type('test@test.com');
+await page.locator("#email").type("test@test.com");
 
 // Press keys
-await page.locator('input').press('Enter');
-await page.keyboard.press('Tab');
+await page.locator("input").press("Enter");
+await page.keyboard.press("Tab");
 
 // Check/Uncheck
 await page.locator('input[type="checkbox"]').check();
 await page.locator('input[type="checkbox"]').uncheck();
 
 // Select option
-await page.locator('select').selectOption('value');
-await page.locator('select').selectOption({ label: 'Option 1' });
+await page.locator("select").selectOption("value");
+await page.locator("select").selectOption({ label: "Option 1" });
 
 // Drag and drop
-await page.locator('#source').dragTo(page.locator('#target'));
+await page.locator("#source").dragTo(page.locator("#target"));
 
 // Hover
-await page.locator('.menu-item').hover();
+await page.locator(".menu-item").hover();
 
 // Scroll
-await page.locator('.item').scrollIntoViewIfNeeded();
+await page.locator(".item").scrollIntoViewIfNeeded();
 ```
 
 ### Reading Element Data
 
 ```javascript
 // Get text content
-const text = await page.locator('.message').textContent();
+const text = await page.locator(".message").textContent();
 
 // Get inner text (visible only)
-const visibleText = await page.locator('.message').innerText();
+const visibleText = await page.locator(".message").innerText();
 
 // Get input value
-const value = await page.locator('#email').inputValue();
+const value = await page.locator("#email").inputValue();
 
 // Get attribute
-const href = await page.locator('a').getAttribute('href');
+const href = await page.locator("a").getAttribute("href");
 
 // Get all text contents (from multiple elements)
-const texts = await page.locator('.item').allTextContents();
+const texts = await page.locator(".item").allTextContents();
 
 // Check visibility
-const isVisible = await page.locator('.message').isVisible();
+const isVisible = await page.locator(".message").isVisible();
 
 // Check if checked
 const isChecked = await page.locator('input[type="checkbox"]').isChecked();
 
 // Get element count
-const count = await page.locator('.item').count();
+const count = await page.locator(".item").count();
 ```
 
 ### DOM Manipulation
@@ -340,8 +349,8 @@ const sum = await page.evaluate(([a, b]) => a + b, [5, 10]);
 
 // Add element
 await page.evaluate(() => {
-  const div = document.createElement('div');
-  div.textContent = 'New element';
+  const div = document.createElement("div");
+  div.textContent = "New element";
   document.body.appendChild(div);
 });
 ```
@@ -350,10 +359,10 @@ await page.evaluate(() => {
 
 ```javascript
 // Take screenshot
-await page.screenshot({ path: 'screenshot.png' });
+await page.screenshot({ path: "screenshot.png" });
 
 // Take screenshot of specific element
-await page.locator('.card').screenshot({ path: 'card.png' });
+await page.locator(".card").screenshot({ path: "card.png" });
 
 // Enable video recording (in config)
 // video: 'retain-on-failure' or 'on'
@@ -366,63 +375,63 @@ await page.locator('.card').screenshot({ path: 'card.png' });
 ### Basic Assertions
 
 ```javascript
-const { expect } = require('@playwright/test');
+const { expect } = require("@playwright/test");
 
 // Text content
-await expect(page.locator('.message')).toContainText('Success');
-await expect(page.locator('.message')).toHaveText('Exact Text');
+await expect(page.locator(".message")).toContainText("Success");
+await expect(page.locator(".message")).toHaveText("Exact Text");
 
 // Visibility
-await expect(page.locator('.message')).toBeVisible();
-await expect(page.locator('.hidden')).toBeHidden();
+await expect(page.locator(".message")).toBeVisible();
+await expect(page.locator(".hidden")).toBeHidden();
 
 // Enabled/Disabled
-await expect(page.locator('button')).toBeEnabled();
-await expect(page.locator('button')).toBeDisabled();
+await expect(page.locator("button")).toBeEnabled();
+await expect(page.locator("button")).toBeDisabled();
 
 // Checked
 await expect(page.locator('input[type="checkbox"]')).toBeChecked();
 await expect(page.locator('input[type="checkbox"]')).not.toBeChecked();
 
 // Editable
-await expect(page.locator('input')).toBeEditable();
+await expect(page.locator("input")).toBeEditable();
 
 // Value
-await expect(page.locator('input')).toHaveValue('expected value');
+await expect(page.locator("input")).toHaveValue("expected value");
 
 // Attribute
-await expect(page.locator('a')).toHaveAttribute('href', '/path');
+await expect(page.locator("a")).toHaveAttribute("href", "/path");
 
 // Count
-await expect(page.locator('.item')).toHaveCount(5);
+await expect(page.locator(".item")).toHaveCount(5);
 
 // Class
-await expect(page.locator('.button')).toHaveClass('active');
+await expect(page.locator(".button")).toHaveClass("active");
 
 // Focus
-await expect(page.locator('input')).toBeFocused();
+await expect(page.locator("input")).toBeFocused();
 ```
 
 ### Page Assertions
 
 ```javascript
 // URL
-await expect(page).toHaveURL('https://example.com/dashboard');
+await expect(page).toHaveURL("https://example.com/dashboard");
 
 // Title
-await expect(page).toHaveTitle('Dashboard - Example App');
+await expect(page).toHaveTitle("Dashboard - Example App");
 ```
 
 ### Custom Assertions
 
 ```javascript
 // Use Truthy/Falsy
-const isValid = await page.locator('.error').isVisible();
+const isValid = await page.locator(".error").isVisible();
 expect(isValid).toBeTruthy();
 
 // Use toEqual for exact match
-const text = await page.locator('.title').textContent();
-expect(text).toEqual('Expected Title');
+const text = await page.locator(".title").textContent();
+expect(text).toEqual("Expected Title");
 ```
 
 ---
@@ -433,10 +442,10 @@ expect(text).toEqual('Expected Title');
 
 ```javascript
 // ❌ Avoid
-await page.locator('button.submit-btn').click();
+await page.locator("button.submit-btn").click();
 
 // ✅ Prefer
-await page.getByRole('button', { name: 'Submit' }).click();
+await page.getByRole("button", { name: "Submit" }).click();
 ```
 
 ### 2. Wait Intelligently
@@ -446,7 +455,7 @@ await page.getByRole('button', { name: 'Submit' }).click();
 await page.waitForTimeout(5000);
 
 // ✅ Prefer - Reliable
-await page.locator('.loader').waitFor({ state: 'hidden' });
+await page.locator(".loader").waitFor({ state: "hidden" });
 ```
 
 ### 3. Use Page Object Model
@@ -459,13 +468,13 @@ class LoginPage {
   }
 
   async navigate() {
-    await this.page.goto('https://app.com/login');
+    await this.page.goto("https://app.com/login");
   }
 
   async login(email, password) {
-    await this.page.getByLabel('Email').fill(email);
-    await this.page.getByLabel('Password').fill(password);
-    await this.page.getByRole('button', { name: 'Login' }).click();
+    await this.page.getByLabel("Email").fill(email);
+    await this.page.getByLabel("Password").fill(password);
+    await this.page.getByRole("button", { name: "Login" }).click();
   }
 }
 
@@ -476,13 +485,13 @@ module.exports = LoginPage;
 
 ```javascript
 // Each test should be independent
-test.describe('User Profile', () => {
+test.describe("User Profile", () => {
   test.beforeEach(async ({ page }) => {
     // Setup before each test
     await loginUser(page);
   });
 
-  test('should display user info', async ({ page }) => {
+  test("should display user info", async ({ page }) => {
     // Test specific functionality
   });
 });
@@ -492,10 +501,12 @@ test.describe('User Profile', () => {
 
 ```javascript
 // ❌ Weak
-await expect(page.locator('div')).toBeVisible();
+await expect(page.locator("div")).toBeVisible();
 
 // ✅ Strong
-await expect(page.locator('.success-message')).toContainText('Order placed successfully');
+await expect(page.locator(".success-message")).toContainText(
+  "Order placed successfully",
+);
 ```
 
 ---
@@ -505,9 +516,10 @@ await expect(page.locator('.success-message')).toContainText('Order placed succe
 ### Q1: What is Playwright and why use it?
 
 **Answer:**
-Playwright is a Node.js library for automating web applications across Chromium, Firefox, and WebKit browsers. 
+Playwright is a Node.js library for automating web applications across Chromium, Firefox, and WebKit browsers.
 
 **Why use it:**
+
 - Multi-browser support out of the box
 - Fast execution with parallel test capabilities
 - Excellent API for waiting and handling async operations
@@ -530,15 +542,16 @@ Playwright is a Node.js library for automating web applications across Chromium,
 | **Accessibility** | Built-in locators use ARIA roles | Only CSS/XPath |
 
 **Example:**
+
 ```javascript
 // Selector
-const selector = '#email';
+const selector = "#email";
 
 // Locator using selector
-const locator = page.locator('#email');
+const locator = page.locator("#email");
 
 // Built-in locator (no selector)
-const builtInLocator = page.getByLabel('Email');
+const builtInLocator = page.getByLabel("Email");
 ```
 
 ---
@@ -551,14 +564,14 @@ Playwright has intelligent waiting built-in. Three main strategies:
 ```javascript
 // 1. Auto-waiting (recommended)
 // Playwright waits for actionability before interacting
-await page.locator('#submit').click();  // Waits for element to be visible, stable, enabled
+await page.locator("#submit").click(); // Waits for element to be visible, stable, enabled
 
 // 2. Explicit waiting
-await page.locator('.loader').waitFor({ state: 'hidden' });
+await page.locator(".loader").waitFor({ state: "hidden" });
 await page.waitForNavigation();
 
 // 3. Timeout-based (avoid if possible)
-await page.waitForTimeout(2000);  // ❌ Flaky
+await page.waitForTimeout(2000); // ❌ Flaky
 ```
 
 **Best Practice:** Let Playwright handle waits automatically via actionability checks.
@@ -569,18 +582,18 @@ await page.waitForTimeout(2000);  // ❌ Flaky
 
 **Answer:**
 
-| Method | Use Case | Returns | Hidden Text |
-|--------|----------|---------|------------|
-| `textContent()` | Any element | All text content | Includes hidden |
-| `inputValue()` | Input/textarea/select | Current field value | N/A |
-| `innerText()` | Visible text | Only visible text | Excludes |
+| Method          | Use Case              | Returns             | Hidden Text     |
+| --------------- | --------------------- | ------------------- | --------------- |
+| `textContent()` | Any element           | All text content    | Includes hidden |
+| `inputValue()`  | Input/textarea/select | Current field value | N/A             |
+| `innerText()`   | Visible text          | Only visible text   | Excludes        |
 
 ```javascript
 // HTML: <div style="display:none">Hidden</div><div>Visible</div>
 
-await page.locator('div').textContent();   // "HiddenVisible"
-await page.locator('div').innerText();     // "Visible"
-await page.locator('input').inputValue();  // "form_value"
+await page.locator("div").textContent(); // "HiddenVisible"
+await page.locator("div").innerText(); // "Visible"
+await page.locator("input").inputValue(); // "form_value"
 ```
 
 ---
@@ -588,9 +601,10 @@ await page.locator('input').inputValue();  // "form_value"
 ### Q5: How do you handle multiple browser tabs/windows?
 
 **Answer:**
+
 ```javascript
 // Listen for popup
-const popupPromise = page.waitForEvent('popup');
+const popupPromise = page.waitForEvent("popup");
 await page.locator('a[target="_blank"]').click();
 const popup = await popupPromise;
 
@@ -608,19 +622,21 @@ await popup.close();
 Page Object Model (POM) is a design pattern that represents each web page as a class, encapsulating element locators and interaction methods.
 
 **Benefits:**
+
 - Maintainability
 - Reusability
 - Readability
 - Reduces code duplication
 
 **Example:**
+
 ```javascript
 // pages/Dashboard.js
 class Dashboard {
   constructor(page) {
     this.page = page;
-    this.welcomeMessage = page.getByRole('heading', { name: /Welcome/ });
-    this.logoutButton = page.getByRole('button', { name: 'Logout' });
+    this.welcomeMessage = page.getByRole("heading", { name: /Welcome/ });
+    this.logoutButton = page.getByRole("button", { name: "Logout" });
   }
 
   async logout() {
@@ -642,6 +658,7 @@ await dashboard.logout();
 ### Q7: How do you run tests in parallel?
 
 **Answer:**
+
 ```javascript
 // playwright.config.js
 export const config = {
@@ -660,29 +677,30 @@ npx playwright test --workers=4
 ### Q8: How do you handle authentication in tests?
 
 **Answer:**
+
 ```javascript
 // 1. Save authenticated state
 test.beforeAll(async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
-  
+
   // Login
-  await page.goto('https://app.com/login');
-  await page.getByLabel('Email').fill('user@test.com');
-  await page.getByLabel('Password').fill('password');
-  await page.getByRole('button', { name: 'Login' }).click();
-  
+  await page.goto("https://app.com/login");
+  await page.getByLabel("Email").fill("user@test.com");
+  await page.getByLabel("Password").fill("password");
+  await page.getByRole("button", { name: "Login" }).click();
+
   // Save state
-  await context.storageState({ path: 'auth.json' });
+  await context.storageState({ path: "auth.json" });
 });
 
 // 2. Reuse authenticated state
-test('should access dashboard', async ({ browser }) => {
+test("should access dashboard", async ({ browser }) => {
   const context = await browser.newContext({
-    storageState: 'auth.json'
+    storageState: "auth.json",
   });
   const page = await context.newPage();
-  await page.goto('https://app.com/dashboard');
+  await page.goto("https://app.com/dashboard");
 });
 ```
 
@@ -691,6 +709,7 @@ test('should access dashboard', async ({ browser }) => {
 ### Q9: What are the types of waits in Playwright?
 
 **Answer:**
+
 1. **Auto-waiting** - Playwright waits for element actionability
 2. **Explicit waiting** - Using `waitFor()` methods
 3. **Navigation waiting** - Using `waitForNavigation()`
@@ -699,19 +718,19 @@ test('should access dashboard', async ({ browser }) => {
 
 ```javascript
 // Auto-waiting (recommended)
-await page.locator('#button').click();
+await page.locator("#button").click();
 
 // Explicit wait
-await page.locator('.loader').waitFor({ state: 'hidden' });
+await page.locator(".loader").waitFor({ state: "hidden" });
 
 // Navigation wait
 await page.waitForNavigation();
 
 // Load state wait
-await page.waitForLoadState('networkidle');
+await page.waitForLoadState("networkidle");
 
 // Event wait
-const popup = await page.waitForEvent('popup');
+const popup = await page.waitForEvent("popup");
 ```
 
 ---
@@ -719,6 +738,7 @@ const popup = await page.waitForEvent('popup');
 ### Q10: How do you debug Playwright tests?
 
 **Answer:**
+
 ```bash
 # 1. Run with headed mode
 npx playwright test --headed
@@ -734,10 +754,11 @@ npx playwright show-report
 ```
 
 **In Code:**
+
 ```javascript
-test('debug test', async ({ page }) => {
-  await page.goto('https://example.com');
-  await page.pause();  // Pause execution for debugging
+test("debug test", async ({ page }) => {
+  await page.goto("https://example.com");
+  await page.pause(); // Pause execution for debugging
 });
 ```
 
@@ -748,44 +769,44 @@ test('debug test', async ({ page }) => {
 ### Example 1: Complete Login Flow
 
 ```javascript
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require("@playwright/test");
 
-test('Complete login flow', async ({ page }) => {
+test("Complete login flow", async ({ page }) => {
   // Navigate to login page
-  await page.goto('https://example.com/login');
-  
+  await page.goto("https://example.com/login");
+
   // Fill credentials
-  await page.getByLabel('Email').fill('user@test.com');
-  await page.getByLabel('Password').fill('Password123');
-  
+  await page.getByLabel("Email").fill("user@test.com");
+  await page.getByLabel("Password").fill("Password123");
+
   // Submit form
-  await page.getByRole('button', { name: 'Login' }).click();
-  
+  await page.getByRole("button", { name: "Login" }).click();
+
   // Wait for dashboard
   await page.waitForNavigation();
-  
+
   // Assert successful login
   await expect(page).toHaveURL(/\/dashboard/);
-  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
 });
 ```
 
 ### Example 2: Form Validation
 
 ```javascript
-test('Form validation', async ({ page }) => {
-  await page.goto('https://example.com/signup');
-  
+test("Form validation", async ({ page }) => {
+  await page.goto("https://example.com/signup");
+
   // Leave email empty and submit
-  await page.getByRole('button', { name: 'Sign Up' }).click();
-  
+  await page.getByRole("button", { name: "Sign Up" }).click();
+
   // Check error message
-  const error = page.locator('.error-message');
-  await expect(error).toContainText('Email is required');
-  
+  const error = page.locator(".error-message");
+  await expect(error).toContainText("Email is required");
+
   // Fill email
-  await page.getByLabel('Email').fill('test@test.com');
-  
+  await page.getByLabel("Email").fill("test@test.com");
+
   // Error should disappear
   await expect(error).not.toBeVisible();
 });
@@ -794,22 +815,22 @@ test('Form validation', async ({ page }) => {
 ### Example 3: Table Data Verification
 
 ```javascript
-test('Verify table data', async ({ page }) => {
-  await page.goto('https://example.com/users');
-  
+test("Verify table data", async ({ page }) => {
+  await page.goto("https://example.com/users");
+
   // Get all rows
-  const rows = page.locator('table tbody tr');
+  const rows = page.locator("table tbody tr");
   const count = await rows.count();
-  
+
   // Verify first row
   const firstRow = rows.first();
-  await expect(firstRow.locator('td:nth-child(1)')).toContainText('John');
-  
+  await expect(firstRow.locator("td:nth-child(1)")).toContainText("John");
+
   // Verify all rows contain expected data
   for (let i = 0; i < count; i++) {
     const row = rows.nth(i);
-    const status = await row.locator('td:nth-child(3)').textContent();
-    expect(['Active', 'Inactive']).toContain(status);
+    const status = await row.locator("td:nth-child(3)").textContent();
+    expect(["Active", "Inactive"]).toContain(status);
   }
 });
 ```
@@ -817,50 +838,50 @@ test('Verify table data', async ({ page }) => {
 ### Example 4: Date Picker Interaction
 
 ```javascript
-test('Select date from calendar', async ({ page }) => {
-  await page.goto('https://example.com/calendar');
-  
+test("Select date from calendar", async ({ page }) => {
+  await page.goto("https://example.com/calendar");
+
   // Click date picker
-  await page.getByLabel('Select Date').click();
-  
+  await page.getByLabel("Select Date").click();
+
   // Navigate to year
-  await page.locator('.calendar-header').click();
-  
+  await page.locator(".calendar-header").click();
+
   // Select year
-  await page.getByText('2024').click();
-  
+  await page.getByText("2024").click();
+
   // Select month
-  await page.getByText('June').click();
-  
+  await page.getByText("June").click();
+
   // Select day
-  await page.locator('button').filter({ hasText: '15' }).click();
-  
+  await page.locator("button").filter({ hasText: "15" }).click();
+
   // Verify selected date
-  await expect(page.getByLabel('Select Date')).toHaveValue('06/15/2024');
+  await expect(page.getByLabel("Select Date")).toHaveValue("06/15/2024");
 });
 ```
 
 ### Example 5: API Testing with Playwright
 
 ```javascript
-test('Verify API response in UI', async ({ page }) => {
+test("Verify API response in UI", async ({ page }) => {
   // Intercept API request
-  const responsePromise = page.waitForResponse(
-    response => response.url().includes('/api/users')
+  const responsePromise = page.waitForResponse((response) =>
+    response.url().includes("/api/users"),
   );
-  
-  await page.goto('https://example.com/users');
+
+  await page.goto("https://example.com/users");
   const response = await responsePromise;
-  
+
   // Verify response status
   expect(response.status()).toBe(200);
-  
+
   // Get response data
   const data = await response.json();
   expect(data.users.length).toBeGreaterThan(0);
-  
+
   // Verify UI shows correct data
-  await expect(page.locator('.user-count')).toContainText(data.users.length);
+  await expect(page.locator(".user-count")).toContainText(data.users.length);
 });
 ```
 
@@ -868,18 +889,18 @@ test('Verify API response in UI', async ({ page }) => {
 
 ## Quick Reference Cheat Sheet
 
-| Task | Code |
-|------|------|
-| Navigate | `await page.goto(url)` |
-| Click | `await page.locator(selector).click()` |
-| Fill input | `await page.locator(selector).fill(text)` |
-| Get text | `await page.locator(selector).textContent()` |
-| Check element | `await expect(locator).toBeVisible()` |
-| Wait for element | `await page.locator(selector).waitFor()` |
-| Take screenshot | `await page.screenshot({ path: 'file.png' })` |
-| Execute JS | `await page.evaluate(() => { ... })` |
-| Get all items | `await page.locator(selector).allTextContents()` |
-| Count elements | `await page.locator(selector).count()` |
+| Task             | Code                                             |
+| ---------------- | ------------------------------------------------ |
+| Navigate         | `await page.goto(url)`                           |
+| Click            | `await page.locator(selector).click()`           |
+| Fill input       | `await page.locator(selector).fill(text)`        |
+| Get text         | `await page.locator(selector).textContent()`     |
+| Check element    | `await expect(locator).toBeVisible()`            |
+| Wait for element | `await page.locator(selector).waitFor()`         |
+| Take screenshot  | `await page.screenshot({ path: 'file.png' })`    |
+| Execute JS       | `await page.evaluate(() => { ... })`             |
+| Get all items    | `await page.locator(selector).allTextContents()` |
+| Count elements   | `await page.locator(selector).count()`           |
 
 ---
 

@@ -7,7 +7,6 @@ A Playwright automation testing project for e-commerce website testing.
 - **[PLAYWRIGHT_KNOWLEDGE_BASE.md](PLAYWRIGHT_KNOWLEDGE_BASE.md)** — Comprehensive guide with setup, methods, best practices, and interview Q&A
 - **[README.md](README.md)** — Project overview and test specifications
 
-
 ```bash
 npm install
 ```
@@ -69,15 +68,18 @@ npx playwright test -g "Static dropdown"
 This file demonstrates a Playwright end-to-end test that logs into an e-commerce site, adds a product to the cart, verifies the cart, and completes checkout.
 
 ### Playwright test utilities
+
 - `test(name, async ({browser}) => {...})` — define a test case and get a `browser` fixture.
 - `expect(value).toEqual(expected)` — assert the actual value equals the expected value.
 
 ### Browser and page lifecycle
+
 - `browser.newContext()` — create a new browser context for an isolated test session.
 - `context.newPage()` — open a new page/tab in the context.
 - `page.goto(url)` — navigate to the target URL.
 
 ### Element actions and assertions
+
 - `page.locator(selector)` — locate an element or set of elements on the page.
 - `locator.fill(value)` — type or replace the value of an input field.
 - `locator.click()` — click an element.
@@ -89,11 +91,13 @@ This file demonstrates a Playwright end-to-end test that logs into an e-commerce
 - `locator.nth(index)` — target the nth element from a locator that matches multiple elements.
 
 ### Query helper methods
+
 - `page.getByText(text)` — locate an element by its visible text.
 - `page.getByPlaceholder(text)` — locate an input by its placeholder value.
 - `locator.pressSequentially(keys, options)` — type text sequentially into a focused element with a delay.
 
 ### Test-specific patterns
+
 - `for (const name of productName) { ... }` — loop through product names and click the matching item.
 - `if (text === ' India') { ... }` — compare option labels before selecting the dropdown item.
 
@@ -104,6 +108,7 @@ This file demonstrates a Playwright end-to-end test that logs into an e-commerce
 This file practices Playwright locators for form controls on the Angular practice page, including checkboxes, dropdowns, form submission, and navigation.
 
 ### Locator patterns
+
 - `page.getByLabel("Check me out if you Love IceCreams!")` — locate a checkbox by its label.
 - `locator.check()` — select/activate a checkbox or radio control.
 - `locator.isChecked()` — verify whether a checkbox or radio button is checked.
@@ -117,6 +122,7 @@ This file practices Playwright locators for form controls on the Angular practic
 - `locator.getByRole("button")` — locate a button within a filtered element.
 
 ### Assertions
+
 - `expect(value).toBeTruthy()` — assert that a value is truthy (e.g., checkbox is checked).
 - `expect(value).toBeFalsy()` — assert that a value is falsy (e.g., checkbox is unchecked).
 - `expect(message).toContain("Success!")` — assert that a string contains a substring.
@@ -128,6 +134,7 @@ This file practices Playwright locators for form controls on the Angular practic
 This file tests a React date picker calendar component, navigating through months and years to select a specific date, then verifying the selected date values are populated in input fields.
 
 ### Locator patterns
+
 - `page.locator(".react-date-picker__inputGroup")` — locate the date picker input group container.
 - `page.locator(".react-calendar__navigation__label")` — locate the calendar navigation label (month/year display).
 - `page.locator(".react-calendar__tile")` — locate calendar date tiles.
@@ -135,9 +142,11 @@ This file tests a React date picker calendar component, navigating through month
 - `page.locator(".react-date-picker__inputGroup__input")` — locate individual date input fields.
 
 ### Query helper methods
+
 - `page.getByText(year)` — locate an element by its visible text (e.g., year in calendar).
 
 ### Element interactions
+
 - `locator.click()` — click an element to navigate or select.
 - `locator.nth(i)` — access the nth element from a locator result set.
 - `locator.first()` — access the first element from a locator result set.
@@ -145,9 +154,11 @@ This file tests a React date picker calendar component, navigating through month
 - `locator.inputValue()` — read the current value of an input field.
 
 ### Assertions
+
 - `expect(inputValue).toEqual(expectedList[i])` — verify the input value matches the expected month, day, or year.
 
 ### Test patterns
+
 - Multiple `click()` calls to navigate calendar (month label → year selection → month → day).
 - Loop through expected values and validate each date input field with `inputValue()`.
 - Store expected values in an array and compare each input field value in sequence.
@@ -158,11 +169,11 @@ This file tests a React date picker calendar component, navigating through month
 
 ### Quick Comparison
 
-| Method | Use For | Returns |
-|--------|---------|---------|
-| `textContent()` | Any element | All text (including hidden) |
-| `inputValue()` | Input fields | Current input value |
-| `innerText()` | Visible elements | Only visible text |
+| Method          | Use For          | Returns                     |
+| --------------- | ---------------- | --------------------------- |
+| `textContent()` | Any element      | All text (including hidden) |
+| `inputValue()`  | Input fields     | Current input value         |
+| `innerText()`   | Visible elements | Only visible text           |
 
 ---
 
@@ -172,7 +183,7 @@ This file tests a React date picker calendar component, navigating through month
 
 ```typescript
 // Get text content of any element
-const text = await page.locator('.product-name').textContent();
+const text = await page.locator(".product-name").textContent();
 console.log(text); // "iPhone 15 Pro"
 
 // For elements with children
@@ -181,6 +192,7 @@ console.log(text); // "iPhone 15 Pro"
 ```
 
 **Best for:**
+
 - Reading text from divs, spans, labels, buttons
 - Getting text from nested elements
 - When you need ALL text (visible + hidden)
@@ -193,17 +205,18 @@ console.log(text); // "iPhone 15 Pro"
 
 ```typescript
 // Get value from input field
-const email = await page.locator('#email').inputValue();
+const email = await page.locator("#email").inputValue();
 console.log(email); // "user@test.com"
 
 // For textarea
-const message = await page.locator('#message').inputValue();
+const message = await page.locator("#message").inputValue();
 
 // For select dropdown
-const selected = await page.locator('select#country').inputValue();
+const selected = await page.locator("select#country").inputValue();
 ```
 
 **Best for:**
+
 - Reading input field values
 - Getting textarea content
 - Reading selected dropdown values
@@ -219,7 +232,7 @@ const selected = await page.locator('select#country').inputValue();
 
 ```typescript
 // Get visible text only
-const text = await page.locator('.product-name').innerText();
+const text = await page.locator(".product-name").innerText();
 console.log(text); // "iPhone 15 Pro"
 
 // Hidden text is excluded
@@ -228,6 +241,7 @@ console.log(text); // "iPhone 15 Pro"
 ```
 
 **Best for:**
+
 - When you need only visible text
 - Text that is rendered on page
 - Avoiding hidden text content
@@ -238,19 +252,19 @@ console.log(text); // "iPhone 15 Pro"
 
 #### Q1: What is the difference between textContent() and inputValue()?
 
-| Aspect | textContent() | inputValue() |
-|--------|---------------|--------------|
-| **Target** | Any element | Input/textarea/select |
-| **Returns** | Text content | Current value |
-| **Hidden text** | Includes hidden | N/A (inputs can't be hidden) |
-| **Use case** | Read labels, buttons | Read form values |
+| Aspect          | textContent()        | inputValue()                 |
+| --------------- | -------------------- | ---------------------------- |
+| **Target**      | Any element          | Input/textarea/select        |
+| **Returns**     | Text content         | Current value                |
+| **Hidden text** | Includes hidden      | N/A (inputs can't be hidden) |
+| **Use case**    | Read labels, buttons | Read form values             |
 
 ```typescript
 // textContent - for any element
-await page.locator('h1').textContent(); // "Welcome"
+await page.locator("h1").textContent(); // "Welcome"
 
 // inputValue - for form elements
-await page.locator('#email').inputValue(); // "test@test.com"
+await page.locator("#email").inputValue(); // "test@test.com"
 ```
 
 #### Q2: When should you use innerText over textContent?
@@ -262,8 +276,8 @@ await page.locator('#email').inputValue(); // "test@test.com"
 // Hidden element
 // <span style="display:none">Secret</span>
 
-await page.locator('span').textContent();  // "Secret"
-await page.locator('span').innerText();     // ""
+await page.locator("span").textContent(); // "Secret"
+await page.locator("span").innerText(); // ""
 ```
 
 #### Q3: Can you use textContent() on input fields?
@@ -274,8 +288,8 @@ Yes, but it returns the default value (placeholder), not the current typed value
 // Input with typed value
 // <input value="typed value">
 
-await page.locator('input').textContent();   // "" (empty - not the typed value)
-await page.locator('input').inputValue();    // "typed value" (correct)
+await page.locator("input").textContent(); // "" (empty - not the typed value)
+await page.locator("input").inputValue(); // "typed value" (correct)
 ```
 
 **Always use `inputValue()` for input fields!**
@@ -284,16 +298,16 @@ await page.locator('input').inputValue();    // "typed value" (correct)
 
 ### Summary Table
 
-| Scenario | Method to Use |
-|----------|----------------|
-| Button text | `textContent()` |
-| Label text | `textContent()` |
-| Div/span text | `textContent()` or `innerText()` |
-| Input field value | `inputValue()` |
-| Textarea content | `inputValue()` |
-| Dropdown selected value | `inputValue()` |
-| Visible text only | `innerText()` |
-| All text (including hidden) | `textContent()` |
+| Scenario                    | Method to Use                    |
+| --------------------------- | -------------------------------- |
+| Button text                 | `textContent()`                  |
+| Label text                  | `textContent()`                  |
+| Div/span text               | `textContent()` or `innerText()` |
+| Input field value           | `inputValue()`                   |
+| Textarea content            | `inputValue()`                   |
+| Dropdown selected value     | `inputValue()`                   |
+| Visible text only           | `innerText()`                    |
+| All text (including hidden) | `textContent()`                  |
 
 ---
 
