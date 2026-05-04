@@ -41,6 +41,7 @@ npx playwright test -g "Static dropdown"
 ├── playwright.config.js    # Playwright configuration
 ├── package.json            # Dependencies
 ├── tests/
+│   ├── calendar.spec.js                  # Date picker calendar tests
 │   ├── ecommerceTest.spec.js             # E-commerce tests
 │   ├── getByLocatorPractice.spec.js      # Locator practice tests (Gender select)
 │   ├── StaticDropdown.spec.js            # Static dropdown tests
@@ -112,6 +113,37 @@ This file practices Playwright locators for form controls on the Angular practic
 - `expect(value).toBeTruthy()` — assert that a value is truthy (e.g., checkbox is checked).
 - `expect(value).toBeFalsy()` — assert that a value is falsy (e.g., checkbox is unchecked).
 - `expect(message).toContain("Success!")` — assert that a string contains a substring.
+
+---
+
+## 🧪 Methods Used in `tests/calendar.spec.js`
+
+This file tests a React date picker calendar component, navigating through months and years to select a specific date, then verifying the selected date values are populated in input fields.
+
+### Locator patterns
+- `page.locator(".react-date-picker__inputGroup")` — locate the date picker input group container.
+- `page.locator(".react-calendar__navigation__label")` — locate the calendar navigation label (month/year display).
+- `page.locator(".react-calendar__tile")` — locate calendar date tiles.
+- `page.locator("//abbr[text()='15']")` — locate elements using XPath (day with specific text).
+- `page.locator(".react-date-picker__inputGroup__input")` — locate individual date input fields.
+
+### Query helper methods
+- `page.getByText(year)` — locate an element by its visible text (e.g., year in calendar).
+
+### Element interactions
+- `locator.click()` — click an element to navigate or select.
+- `locator.nth(i)` — access the nth element from a locator result set.
+- `locator.first()` — access the first element from a locator result set.
+- `locator.waitFor()` — wait for an element to appear and be ready.
+- `locator.inputValue()` — read the current value of an input field.
+
+### Assertions
+- `expect(inputValue).toEqual(expectedList[i])` — verify the input value matches the expected month, day, or year.
+
+### Test patterns
+- Multiple `click()` calls to navigate calendar (month label → year selection → month → day).
+- Loop through expected values and validate each date input field with `inputValue()`.
+- Store expected values in an array and compare each input field value in sequence.
 
 ---
 
