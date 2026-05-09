@@ -23,7 +23,7 @@ test('Static deopdown',async ({browser})=>
 
 },
 
-test.only('windows Handling',async ({browser})=>
+test('windows Handling',async ({browser})=>
 {
      const context = await browser.newContext();
              const page = await context.newPage();

@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import { trace } from 'node:console';
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -14,7 +15,9 @@ reporter:'html',
   use: {
   
    browserName:'chromium',
-   headless: false
+   headless: false,
+   screenshot:'on',
+   trace:'on'
 
   },
 
